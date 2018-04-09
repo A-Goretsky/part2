@@ -6,6 +6,7 @@ using std::string;
 using std::cout;
 using std::cin;
 using std::ifstream;
+using std::endl;
 
 string removeLeadingSpaces(string line) {
     for (int i = 0; i < (int) line.size(); i++) {
@@ -33,12 +34,21 @@ int unindent(std::istream &f) {
     return 0;
 }
 
+string addingLeadingSpaces(string line, int tab){
+    string new_l = line;
+    for (int i = tab; i > 0; --i){
+        new_l = "\t" + new_l;
+    }
+    return new_l;
+}
+
 int indent(std::istream &f) {
-    string res = "";
     string temp = "";
-    int block_num = 0;
+    int block_num = 0; //net count of indents
     while (getline(f, temp)) {
-        countChar(temp, '{');
+        cout << addingLeadingSpaces(removeLeadingSpaces(temp), block_num); // add indent after dedent
+        block_num += countChar(temp, '{');
+        block_num -= countChar(temp, '}');
     }
     return 0;
 }
@@ -46,6 +56,8 @@ int indent(std::istream &f) {
 int main() {
     ifstream f("bad-code.cpp");
     unindent(f);
-    //indent(f);
+    f.close();
+    ifstream fid("bad-code.cpp");
+    indent(fid);
     return 0;
 }
