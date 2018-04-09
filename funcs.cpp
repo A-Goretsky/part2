@@ -44,9 +44,9 @@ string addingLeadingSpaces(string line, int tab){
 
 int indent(std::istream &f) {
     string temp = "";
-    int block_num = 0;
+    int block_num = 0; //net count of indents
     while (getline(f, temp)) {
-        cout << addingLeadingSpaces(removeLeadingSpaces(temp), block_num);
+        cout << addingLeadingSpaces(removeLeadingSpaces(temp), block_num); // add indent after dedent
         block_num += countChar(temp, '{');
         block_num -= countChar(temp, '}');
     }
